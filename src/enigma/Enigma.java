@@ -18,30 +18,35 @@ public class Enigma {
 
         //-------------------- DANE WEJŚCIOWE --------------------
         //tekst do zaszyfrowania
-        String text = "tajna wiadomosc abc xyz";
+        String text = "TAJNE HASLO 123";
 
         //przesunięcie, domyślnie 1: A -> B
         int offset = 1;
         
         
-        //-------------------- PRZYGOTOWANIE --------------------        
-        /* Zamieniamy na wielkie litery - wynika to z założonego alfabetu */
-        text = text.toUpperCase();
+        //-------------------- PRZYGOTOWANIE --------------------
         
-        /* Sprawdzamy poprawność - czy wszystkie znaki w tekście należą do ustalonego alfabetu;
-         * zakładamy, że alfabet składa się tylko z liter A-Z (bez polskich)
+        /*
+         * Tworzymy alfabet
+         */
+        Alphabet alphabet = Alphabet.ALPHANUMERIC;
+        
+        /* Sprawdzamy poprawność - czy wszystkie znaki w tekście należą do ustalonego alfabetu
          * 
-         * Korzystamy z metody matches() klasy String i wyrażenia regularnego definiującego alfabet
+         * Korzystamy z metody isTextValid() typu wyliczeniowego Alphabet
          */ 
-        if (!text.matches("^[A-Z ]*$")) {
+        if (!alphabet.isTextValid(text)) {
             throw new IllegalArgumentException("Tekst zawiera znaki spoza ustalonego alfabetu.");
         }
     
         //-------------------- SZYFROWANIE --------------------
-        /* W pętli przechodzimy znak po znaku i do każdego kodu znaku dodajemy przesunięcie.
+        /* W pętli przechodzimy znak po znaku i do każdego znaku dodajemy przesunięcie.
+         * Korzystamy z łańcucha znaków zdefiniowanego w alfabecie.
          * Uzyskany znak dopisujemy do wyjściowego (zaszyfrowanego) łańcucha.
          * Używamy w tym celu obiektu klasy StringBuilder.
          */
+        
+        String chars = alphabet.getChars();
         
         StringBuilder sb = new StringBuilder();
         
@@ -51,7 +56,7 @@ public class Enigma {
             int ch = text.charAt(i);
             
             //dodajemy przesunięcie
-            ch = ch + offset;
+            ch = chars.charAt( (chars.indexOf(ch) + offset) % chars.length() );
             
             //znak dopisujemy do łańcucha wyjściowego;
             //aby do łańcucha dodać znak, a nie jego kod, typ int musimy rzutować na char
@@ -59,10 +64,9 @@ public class Enigma {
         }
         
         //-------------------- WYNIKI --------------------
-        System.out.println("Tekst szyfrowany: " + text);
+        System.out.println("Tekst szyfrowany:   " + text);
         System.out.println("Tekst zaszyfrowany: " + sb.toString());
         
-    
     }
     
 }
