@@ -18,22 +18,19 @@ public class Enigma {
 
         //-------------------- DANE WEJŚCIOWE --------------------
         //tekst do zaszyfrowania
-        String text = "tajna wiadomosc abc xyz";
+        String text = "TAJNE HASLO 123";
 
         //przesunięcie, domyślnie 1: A -> B
         int offset = 1;
         
         
         //-------------------- PRZYGOTOWANIE --------------------        
-        /* Zamieniamy na wielkie litery - wynika to z założonego alfabetu */
-        text = text.toUpperCase();
-        
         /* Sprawdzamy poprawność - czy wszystkie znaki w tekście należą do ustalonego alfabetu;
          * zakładamy, że alfabet składa się tylko z liter A-Z (bez polskich)
          * 
          * Korzystamy z metody matches() klasy String i wyrażenia regularnego definiującego alfabet
          */ 
-        if (!text.matches("^[A-Z ]*$")) {
+        if (!text.matches("^[ -Z]*$")) {
             throw new IllegalArgumentException("Tekst zawiera znaki spoza ustalonego alfabetu.");
         }
     
@@ -59,7 +56,7 @@ public class Enigma {
         }
         
         //-------------------- WYNIKI --------------------
-        System.out.println("Tekst szyfrowany: " + text);
+        System.out.println("Tekst szyfrowany:   " + text);
         System.out.println("Tekst zaszyfrowany: " + sb.toString());
         
     
