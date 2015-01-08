@@ -18,7 +18,7 @@ public class Enigma {
 
         //-------------------- DANE WEJŚCIOWE --------------------
         //tekst do zaszyfrowania
-        String text = "TAJNE HASLO 123";
+        String text = "ABC XYZ";
 
         //przesunięcie, domyślnie 1: A -> B
         int offset = 1;
@@ -30,35 +30,28 @@ public class Enigma {
          * 
          * Korzystamy z metody matches() klasy String i wyrażenia regularnego definiującego alfabet
          */ 
-        if (!text.matches("^[ -Z]*$")) {
-            throw new IllegalArgumentException("Tekst zawiera znaki spoza ustalonego alfabetu.");
-        }
+//        if (!text.matches("^[ -Z]*$")) {
+//            throw new IllegalArgumentException("Tekst zawiera znaki spoza ustalonego alfabetu.");
+//        }
     
         //-------------------- SZYFROWANIE --------------------
-        /* W pętli przechodzimy znak po znaku i do każdego kodu znaku dodajemy przesunięcie.
-         * Uzyskany znak dopisujemy do wyjściowego (zaszyfrowanego) łańcucha.
-         * Używamy w tym celu obiektu klasy StringBuilder.
-         */
         
-        StringBuilder sb = new StringBuilder();
+        //tworzymy obiekt klasy Cipher
+        Cipher cipher = new Cipher();
         
-        for (int i=0; i<text.length(); ++i) {
-            
-            //odczytujemy kod i-tego znaku
-            int ch = text.charAt(i);
-            
-            //dodajemy przesunięcie
-            ch = ch + offset;
-            
-            //znak dopisujemy do łańcucha wyjściowego;
-            //aby do łańcucha dodać znak, a nie jego kod, typ int musimy rzutować na char
-            sb.append((char)ch);
-        }
+        //ustawiamy offset
+        cipher.setOffset(offset);
+        
+        //szyfrujemy
+        String encText = cipher.encrypt(text);
+        
+        //deszyfrujemy
+        String decText = cipher.decrypt(encText);
         
         //-------------------- WYNIKI --------------------
         System.out.println("Tekst szyfrowany:   " + text);
-        System.out.println("Tekst zaszyfrowany: " + sb.toString());
-        
+        System.out.println("Tekst zaszyfrowany: " + encText);
+        System.out.println("Tekst odszyfrowany: " + decText);        
     
     }
     
