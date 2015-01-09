@@ -22,22 +22,14 @@ public class Enigma {
 
         //przesunięcie, domyślnie 1: A -> B
         int offset = 1;
-        
-        
-        //-------------------- PRZYGOTOWANIE --------------------        
-        /* Sprawdzamy poprawność - czy wszystkie znaki w tekście należą do ustalonego alfabetu;
-         * zakładamy, że alfabet składa się tylko z liter A-Z (bez polskich)
-         * 
-         * Korzystamy z metody matches() klasy String i wyrażenia regularnego definiującego alfabet
-         */ 
-//        if (!text.matches("^[ -Z]*$")) {
-//            throw new IllegalArgumentException("Tekst zawiera znaki spoza ustalonego alfabetu.");
-//        }
-    
+
         //-------------------- SZYFROWANIE --------------------
         
+        //tworzymy alfabet
+        Alphabet alpha = new Alphabet(Alphabet.CharSet.ALPHA_UP_WITH_SPACE);
+        
         //tworzymy obiekt klasy Cipher
-        Cipher cipher = new Cipher();
+        Cipher cipher = new Cipher(alpha);
         
         //ustawiamy offset
         cipher.setOffset(offset);

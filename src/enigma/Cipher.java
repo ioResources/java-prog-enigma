@@ -5,11 +5,6 @@ package enigma;
  * 
  */
 public class Cipher {
-
-    /*
-     * "Tablica" znaków alfabetu
-     */
-    private String alphabet = " ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     
     /*
      * Pole offset i metody dostępowe.
@@ -24,6 +19,17 @@ public class Cipher {
         this.offset = offset;
     }
        
+    /*
+     * Pole alphabet
+     */
+    private Alphabet alphabet;
+    
+    //
+    public Cipher(Alphabet alphabet) {
+        this.alphabet = alphabet;
+    }
+    
+    
     /**
      * Metoda szyfruje przekazany tekst.
      * 
@@ -31,12 +37,17 @@ public class Cipher {
      * @return zaszyfrowany tekst
      */
     public String encrypt(String text) {
+        //sprawdzamy, czy tekst jest poprawny
+        if (!alphabet.isTextValid(text)) {
+            throw new IllegalArgumentException("Tekst zawiera znaki spoza alfabetu.");
+        }
+        
         StringBuilder sb = new StringBuilder();
         
         for (int i=0; i<text.length(); ++i) {
             
             //odczytujemy kod i-tego znaku
-            int ch = text.charAt(i);
+            char ch = text.charAt(i);
             
             //pobieramy indeks znaku w alfabecie
             int idx = alphabet.indexOf(ch);
@@ -63,12 +74,17 @@ public class Cipher {
      * @return odszyfrowany tekst
      */
     public String decrypt(String text) {
+        //sprawdzamy, czy tekst jest poprawny
+        if (!alphabet.isTextValid(text)) {
+            throw new IllegalArgumentException("Tekst zawiera znaki spoza alfabetu.");
+        }        
+        
         StringBuilder sb = new StringBuilder();
         
         for (int i=0; i<text.length(); ++i) {
             
             //odczytujemy kod i-tego znaku
-            int ch = text.charAt(i);
+            char ch = text.charAt(i);
             
             int idx = alphabet.indexOf(ch);
             
