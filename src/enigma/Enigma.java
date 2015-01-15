@@ -26,7 +26,8 @@ public class Enigma {
         //-------------------- SZYFROWANIE --------------------
         
         //tworzymy alfabet
-        Alphabet alpha = new Alphabet(Alphabet.CharSet.ALPHA_UP_WITH_SPACE);
+//        Alphabet alpha = new Alphabet(" ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+        Alphabet alpha = new Alphabet(Alphabet.ALPHA_UP_WITH_SPACE);
         
         //tworzymy obiekt klasy Cipher
         Cipher cipher = new Cipher(alpha);
