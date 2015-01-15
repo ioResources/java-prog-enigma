@@ -6,12 +6,26 @@ package enigma;
  */
 public class Alphabet {
     
-    //stałe definiujące alfabet
-    public static final String ALPHA_UP_WITH_SPACE = " ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    public static final String ALPHA_LO_UP_WITH_SPACE = " AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz";
-    public static final String NUMERIC = "0123456789";
-    public static final String NUMERIC_HEX = NUMERIC + "ABCDEF";
+    /**
+     * Enumeracja z definicjami alfabetu
+     */
+    public enum CharSet {
+        ALPHA_UP_WITH_SPACE(" ABCDEFGHIJKLMNOPQRSTUVWXYZ"),
+        ALPHA_LO_UP_WITH_SPACE(" AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"),
+        NUMERIC("0123456789"),
+        NUMERIC_HEX("0123456789ABCDEF");
     
+        private final String chars;
+    
+        CharSet(String chars) {
+            this.chars = chars;
+        }
+        
+        public String getChars() {
+            return chars;
+        }
+    }
+      
     private final String charset;
     private final int length;
     
@@ -23,6 +37,15 @@ public class Alphabet {
     public Alphabet(String charset) {
         this.charset = charset;
         this.length = charset.length();
+    }
+    
+    /**
+     * Konstruktor przyjmujący wartość typu wyliczeniowego CharSet
+     * 
+     * @param charsetEnum 
+     */
+    public Alphabet(CharSet charsetEnum) {
+        this(charsetEnum.getChars());
     }
     
     /**
@@ -63,5 +86,5 @@ public class Alphabet {
     public int length() {
         return length;
     }
-    
+  
 }

@@ -9,16 +9,13 @@ public class Enigma {
     /**
      * Implementacja szyfru Cezara.
      * 
-     * Algorytm ma działać na ustalonym alfabecie (np. litery alfabetu łacińskiego A-Z).
-     * W przypadku podania łańcucha zawierającego znaki spoza alfabetu ma rzucać wyjątek.
-     * 
      * @param args
      */
     public static void main(String[] args) {
 
         //-------------------- DANE WEJŚCIOWE --------------------
         //tekst do zaszyfrowania
-        String text = "ABC XYZ";
+        String text = "ABC123";
 
         //przesunięcie, domyślnie 1: A -> B
         int offset = 1;
@@ -26,8 +23,7 @@ public class Enigma {
         //-------------------- SZYFROWANIE --------------------
         
         //tworzymy alfabet
-//        Alphabet alpha = new Alphabet(" ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-        Alphabet alpha = new Alphabet(Alphabet.ALPHA_UP_WITH_SPACE);
+        Alphabet alpha = new Alphabet(Alphabet.CharSet.NUMERIC_HEX);
         
         //tworzymy obiekt klasy Cipher
         Cipher cipher = new Cipher(alpha);
