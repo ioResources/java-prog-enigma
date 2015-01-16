@@ -1,36 +1,90 @@
+
 package enigma;
 
 /**
- * Typ wyliczeniowy definiujący dostępne alfabety.
+ * Klasa definiuje alfabet używany w szyfrowaniu.
  */
-public enum Alphabet {
-    ALPHA("ABCDEFGHIJKLMNOPQRSTUVWXYZ "),
-    ALPHANUMERIC("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ "),
-    NUMERIC("0123456789");
-    
+public class Alphabet {
     
     /**
-     * Konstruktor
+     * Enumeracja z definicjami alfabetu
      */
-    private Alphabet(String chars) {
-        this.chars = chars;
+    public enum CharSet {
+        ALPHA_UP_WITH_SPACE(" ABCDEFGHIJKLMNOPQRSTUVWXYZ"),
+        ALPHA_LO_UP_WITH_SPACE(" AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"),
+        NUMERIC("0123456789"),
+        NUMERIC_HEX("0123456789ABCDEF");
+    
+        private final String chars;
+    
+        CharSet(String chars) {
+            this.chars = chars;
+        }
+        
+        public String getChars() {
+            return chars;
+        }
+    }
+      
+    private final String charset;
+    private final int length;
+    
+    /**
+     * Konstruktor przyjmujący definicję alfabetu jako łańcuch
+     * 
+     * @param charset 
+     */
+    public Alphabet(String charset) {
+        this.charset = charset;
+        this.length = charset.length();
     }
     
     /**
-     * Metoda zwraca zestaw znaków w alfabecie (jako łańcuch)
+     * Konstruktor przyjmujący wartość typu wyliczeniowego CharSet
+     * 
+     * @param charsetEnum 
      */
-    public String getChars() {
-        return chars;
+    public Alphabet(CharSet charsetEnum) {
+        this(charsetEnum.getChars());
     }
     
     /**
-     * Metoda sprawdza, czy przekazany tekst jest zgodny z alfabetem (czy nie
-     * zawiera znaków spoza alfabetu)
+     * Metoda sprawdzająca poprawność tekstu względem alfabetu
+     * 
+     * @param text
+     * @return 
      */
     public boolean isTextValid(String text) {
-        return text.matches("^["+chars+"]*$");
+        return text.matches("^[" + charset + "]*$");
     }
     
-    //--- prywatne pola
-    private String chars;
+    /**
+     * Metoda zwraca znak znajdujący się pod danym indeksem alfabetu
+     * 
+     * @param index
+     * @return 
+     */
+    public char charAt(int index) {
+        return charset.charAt(index);
+    }
+    
+    /**
+     * Metoda zwraca indeks danego znaku alfabetu
+     * 
+     * @param ch
+     * @return 
+     */
+    public int indexOf(char ch) {
+        return charset.indexOf(ch);
+    }
+    
+    /**
+     * metoda zwraca długość alfabetu
+     * 
+     * @return 
+     */
+    public int length() {
+        return length;
+    }
+  
 }
