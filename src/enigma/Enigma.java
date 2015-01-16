@@ -26,10 +26,10 @@ public class Enigma {
         Alphabet alpha = new Alphabet(Alphabet.CharSet.NUMERIC_HEX);
         
         //tworzymy obiekt klasy Cipher
-        Cipher cipher = new Cipher(alpha);
+        Cipher cipher = new CipherCaesar(alpha);
         
         //ustawiamy offset
-        cipher.setOffset(offset);
+        cipher.setKey(offset);
         
         //szyfrujemy
         String encText = cipher.encrypt(text);

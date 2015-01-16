@@ -1,42 +1,57 @@
 package enigma;
 
 /**
- * Klasa odpowiedzialna za szyfrowanie.
+ * Abstrakcyjna klasa odpowiedzialna za szyfrowanie.
  * 
  */
-public class Cipher {
+public abstract class Cipher {
     
     /*
-     * Pole offset i metody dostępowe.
+     * Pole klucza (key) i metody dostępowe.
      */
-    private int offset;
+    protected int key;
 
-    public int getOffset() {
-        return offset;
+    public int getKey() {
+        return key;
     }
 
-    public void setOffset(int offset) {
-        this.offset = offset;
+    public void setKey(int key) {
+        this.key = key;
     }
        
     /*
      * Pole alphabet
      */
-    private Alphabet alphabet;
+    protected final Alphabet alphabet;
     
-    //
+    /**
+     * Konstruktor przyjmujący obiekt alfabetu.
+     * 
+     * @param alphabet 
+     */
     public Cipher(Alphabet alphabet) {
         this.alphabet = alphabet;
     }
     
     
-    /**
-     * Metoda szyfruje przekazany tekst.
-     * 
-     * @param text tekst do zaszyfrowania
-     * @return zaszyfrowany tekst
+    /*
+     * Abstrakcyjne metody szyfrujące/deszyfrujące
      */
-    public String encrypt(String text) {
+    public abstract String encrypt(String text);
+    public abstract String decrypt(String text);
+    
+    /**
+     * Chroniona (protected) metoda przetwarzająca szyfrowany tekst.
+     * 
+     * Jest odpowiedzialna za przejście po całym tekście znak po znaku.
+     * Przetwarzanie pojedynczego znaku jest zlecane za pośrednictwem metody
+     * process() obiektowi implementującemu interfejs CharProc.
+     * 
+     * @param text
+     * @param cp
+     * @return 
+     */
+    protected String doJob(String text, CharProc cp) {
         //sprawdzamy, czy tekst jest poprawny
         if (!alphabet.isTextValid(text)) {
             throw new IllegalArgumentException("Tekst zawiera znaki spoza alfabetu.");
@@ -48,62 +63,15 @@ public class Cipher {
             
             //odczytujemy kod i-tego znaku
             char ch = text.charAt(i);
-            
-            //pobieramy indeks znaku w alfabecie
-            int idx = alphabet.indexOf(ch);
-            
-            //przesuwamy się w alfabecie o offset
-            idx = (idx + offset) % alphabet.length();
-            
-            //odczytujemy znak z przesuniętego indeksu
-            ch = alphabet.charAt(idx);
-            
+
+            //zlecamy przetworzenie znaku obiektowi CharProc
+            ch = cp.process(ch, key, alphabet);
+                      
             //dołączamy znak do łańcucha wyjściowego
             sb.append((char)ch);
         }
         
         return sb.toString();
     }
-
-    /**
-     * Metoda odszyfrowująca przekazany tekst.
-     * Działa tak samo jak metoda encrypt().
-     * Jedyna różnica polega na tym, że odejmuje offset.
-     * 
-     * @param text zaszyfrowany tekst
-     * @return odszyfrowany tekst
-     */
-    public String decrypt(String text) {
-        //sprawdzamy, czy tekst jest poprawny
-        if (!alphabet.isTextValid(text)) {
-            throw new IllegalArgumentException("Tekst zawiera znaki spoza alfabetu.");
-        }        
-        
-        StringBuilder sb = new StringBuilder();
-        
-        for (int i=0; i<text.length(); ++i) {
-            
-            //odczytujemy kod i-tego znaku
-            char ch = text.charAt(i);
-            
-            int idx = alphabet.indexOf(ch);
-            
-            //jedyna różnica między encrypt() a decrypt() to znak przed offset
-            idx = (idx - offset) % alphabet.length();
-            
-            //jeżeli w wyniku przesunięcia wejdziemy na indeksy ujemne,
-            //musimy przejść na koniec alfabetu
-            if (idx < 0) {
-                idx = idx + alphabet.length();
-            }
-            
-            ch = alphabet.charAt(idx);
-            
-            sb.append((char)ch);
-        }
-        
-        return sb.toString();
-    }
-
     
 }
