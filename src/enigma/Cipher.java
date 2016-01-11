@@ -36,7 +36,7 @@ public class Cipher {
         for (int i=0; i<text.length(); ++i) {
             
             //odczytujemy kod i-tego znaku
-            int ch = text.charAt(i);
+            char ch = text.charAt(i);
             
             //pobieramy indeks znaku w alfabecie
             int idx = alphabet.indexOf(ch);
@@ -48,7 +48,7 @@ public class Cipher {
             ch = alphabet.charAt(idx);
             
             //dołączamy znak do łańcucha wyjściowego
-            sb.append((char)ch);
+            sb.append(ch);
         }
         
         return sb.toString();
@@ -68,7 +68,7 @@ public class Cipher {
         for (int i=0; i<text.length(); ++i) {
             
             //odczytujemy kod i-tego znaku
-            int ch = text.charAt(i);
+            char ch = text.charAt(i);
             
             int idx = alphabet.indexOf(ch);
             
@@ -83,7 +83,7 @@ public class Cipher {
             
             ch = alphabet.charAt(idx);
             
-            sb.append((char)ch);
+            sb.append(ch);
         }
         
         return sb.toString();
